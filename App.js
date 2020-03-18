@@ -15,7 +15,7 @@ import HotelDetailScreen from './src/components/screen/Hotel/HotelDetail';
 import BookingListScreen from './src/components/screen/Booking/Book';
 import UserScreen from './src/components/screen/Account/User';
 import BookNowScreen from './src/components/screen/Hotel/BookNow';
-import MyHotelScreen from './src/components/screen/Hotel/MyHotel'
+import MyHotelScreen from './src/components/screen/Hotel/MyHotel';
 
 const homeNavigator = createStackNavigator({
   Home: {
