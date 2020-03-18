@@ -9,6 +9,7 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Content, Form, Item, Input, Icon} from 'native-base';
 import {getUser} from '../../redux/action/user';
 import {connect} from 'react-redux';
+import {URI} from 'react-native-dotenv';
 import axios from 'axios';
 
 const styles = StyleSheet.create({
@@ -25,7 +26,7 @@ class ForgetPassword extends Component {
   checkNumber = () => {
     const hp = {hp: this.state.hp};
     axios
-      .post(`http://192.168.1.39:8282/v1/user/forgot`, hp)
+      .post(`${URI}/v1/user/forgot`, hp)
       .then(res => {
         console.log(res);
         if (res.data.message === 'Phone number not Found') {
