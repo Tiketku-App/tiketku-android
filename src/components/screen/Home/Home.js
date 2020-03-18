@@ -98,7 +98,6 @@ class Home extends Component {
             </View>
           </ScrollView>
         </View>
-        <Text style={{color: '#75797C'}}></Text>
         <Text style={{fontSize: 18}}>{item.hotel_name}</Text>
         <Text style={{color: '#75797C'}}>{item.hotel_location}</Text>
         <TouchableOpacity

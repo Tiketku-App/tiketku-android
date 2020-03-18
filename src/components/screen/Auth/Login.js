@@ -13,6 +13,7 @@ import {
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Content, Form, Item, Input, Icon} from 'native-base';
 import axios from 'axios';
+import {URI} from 'react-native-dotenv';
 
 const styles = StyleSheet.create({
   wrap: {
@@ -29,9 +30,12 @@ class Login extends Component {
   setStorage = async res => {
     await AsyncStorage.setItem('token', res.data.result.token);
   };
+  componentDidMount() {
+    console.log(URI);
+  }
   onLogin = data => {
     axios
-      .post(`http://192.168.1.39:8282/v1/user/login/`, data)
+      .post(`${URI}/v1/user/login/`, data)
       .then(res => {
         console.log('here', res);
         if (res.data.message === 'Wrong Email') {
