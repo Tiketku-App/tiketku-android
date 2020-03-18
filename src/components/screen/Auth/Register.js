@@ -1,14 +1,28 @@
-import React, { Component } from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Content, Form, Item, Input, Icon, ListItem, CheckBox, Body } from 'native-base';
+/* eslint-disable no-alert */
+/* eslint-disable react-native/no-inline-styles */
+import React, {Component} from 'react';
+import {View, Text, Image, StyleSheet} from 'react-native';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import {
+  Content,
+  Form,
+  Item,
+  Input,
+  Icon,
+  ListItem,
+  CheckBox,
+  Body,
+  Picker,
+} from 'native-base';
+import axios from 'axios';
+// import console = require('console');
 
 const styles = StyleSheet.create({
-    wrap: {
-        flex: 1,
-        backgroundColor: 'white'
-    }
-})
+  wrap: {
+    flex: 1,
+    backgroundColor: 'white',
+  },
+});
 
 class Register extends Component {
   state = {
