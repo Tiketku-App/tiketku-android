@@ -15,7 +15,7 @@ import {
   Picker,
 } from 'native-base';
 import axios from 'axios';
-// import console = require('console');
+import {URI} from 'react-native-dotenv';
 
 const styles = StyleSheet.create({
   wrap: {
@@ -41,7 +41,7 @@ class Register extends Component {
   };
 
   onRegister = data => {
-    axios.post('http://192.168.1.39:8282/v1/user/register/', data).then(res => {
+    axios.post(`${URI}/v1/user/register/`, data).then(res => {
       alert('success');
       this.props.navigation.navigate('Login');
     });

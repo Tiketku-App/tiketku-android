@@ -87,7 +87,7 @@ class OtpSession extends Component {
               marginTop: 20,
             }}>
             <Text style={{fontSize: 16, color: '#989898'}}>
-              Didn't Get Code Verification ?{' '}
+              Didn't Get Code Verification ?
             </Text>
             <TouchableOpacity>
               <Text style={{fontSize: 16, color: '#989898'}}>

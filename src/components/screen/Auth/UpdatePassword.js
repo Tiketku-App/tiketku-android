@@ -5,6 +5,7 @@ import {View, Text, Image, StyleSheet} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Content, Form, Item, Input, Icon} from 'native-base';
 import {connect} from 'react-redux';
+import {URI} from 'react-native-dotenv';
 import axios from 'axios';
 
 const styles = StyleSheet.create({
@@ -24,7 +25,7 @@ class UpdatePassword extends Component {
       hp: this.props.user.phone_number,
     };
     axios
-      .patch(`http://192.168.1.39:8282/v1/user/changepass`, data)
+      .patch(`${URI}/v1/user/changepass`, data)
       .then(res => {
         alert('Success update password');
         this.props.navigation.navigate('Login');
