@@ -1,9 +1,7 @@
-/* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, Image} from 'react-native';
 import {TouchableOpacity, ScrollView} from 'react-native-gesture-handler';
-import {Icon, Button} from 'native-base';
-import {connect} from 'react-redux';
+import {Icon} from 'native-base';
 // import { Container, Header, Tab, Tabs, TabHeading, Icon, Text } from 'native-base';
 
 const styles = StyleSheet.create({
@@ -19,16 +17,18 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   content: {
-    height: 522,
+    height: 462,
     backgroundColor: '#F8F8F8',
-    paddingHorizontal: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   card: {
     backgroundColor: 'white',
+    marginHorizontal: 13,
     marginTop: 15,
+    height: 103,
     borderRadius: 13,
     flexDirection: 'row',
-    padding: 10,
   },
   footer: {
     flex: 1,
@@ -38,89 +38,44 @@ const styles = StyleSheet.create({
   },
 });
 
-class BookList extends Component {
+class ComingSoon extends Component {
   static navigationOptions = {
-    title: 'My Book',
+    title: 'Coming Soon',
     headerTintColor: '#57DBE9',
     headerTitleStyle: {
       fontSize: 18,
     },
   };
-  etiket = e => {
-    this.props.navigation.navigate('ETicket', {
-      data: e,
-    });
-  };
   render() {
-    const BookView = () => {
-      if (this.props.book) {
-        return (
-          <>
-            {this.props.book.map(data => (
-              <View style={styles.card}>
-                <View>
-                  <Text style={{marginTop: 15, fontSize: 17}}>
-                    {' '}
-                    {data.hotel}
-                  </Text>
-                  <Text style={{marginTop: 10, fontSize: 13, color: '#565656'}}>
-                    {' '}
-                    IDR {data.gross_amount}
-                  </Text>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      marginTop: 5,
-                    }}>
-                    <Icon
-                      style={{color: '#BDC0C6', fontSize: 20, marginRight: 10}}
-                      name="locate"
-                    />
-                    <Text style={{color: '#565656', forntSize: 15}}>
-                      {data.address}
-                    </Text>
-                  </View>
-                  <Text>Payment Code: {data.payment_code}</Text>
-                  <Text style={{fontWeight: 'bold'}}>
-                    Payment Method: {data.store}
-                  </Text>
-                  <Button
-                    onPress={() => this.etiket(data)}
-                    rounded
-                    small
-                    bordered
-                    info
-                    style={{
-                      justifyContent: 'center',
-                      marginRight: 100,
-                      marginLeft: 75,
-                      marginTop: 15,
-                    }}>
-                    <Text style={{fontWeight: 'bold'}}>E-Ticket</Text>
-                  </Button>
-                </View>
-              </View>
-            ))}
-          </>
-        );
-      }
-    };
     return (
       <View style={styles.wrap}>
+        <View style={styles.headerWrap}>
+          <TouchableOpacity
+            style={{
+              margin: 10,
+              backgroundColor: '#57DBE9',
+              width: 136,
+              height: 35,
+              justifyContent: 'center',
+              alignItems: 'center',
+              borderRadius: 18,
+            }}>
+            <Text style={{color: 'white'}}>Coming Soon</Text>
+          </TouchableOpacity>
+        </View>
         <View style={styles.content}>
-          <ScrollView showsVerticalScrollIndicator={false}>
-            <BookView />
-          </ScrollView>
+          <Text style={{fontSize: 30, color: '#57DBE9'}}>
+            Coming Soon......
+          </Text>
         </View>
         <View style={styles.footer}>
           <TouchableOpacity
-            onPress={() => this.props.navigation.navigate('Home')}
             style={{
               justifyContent: 'center',
               alignItems: 'center',
               marginHorizontal: 20,
-            }}>
+            }}
+            onPress={() => this.props.navigation.navigate('Home')}>
             <Icon name="home" style={{fontSize: 30, color: '#BDC0C6'}} />
             <Text style={{fontSize: 10, marginTop: -5, color: '#BDC0C6'}}>
               Home
@@ -133,8 +88,8 @@ class BookList extends Component {
               marginHorizontal: 20,
             }}
             onPress={() => this.props.navigation.navigate('BookingList')}>
-            <Icon name="book" style={{fontSize: 30, color: '#57DBE9'}} />
-            <Text style={{fontSize: 10, marginTop: -5, color: '#57DBE9'}}>
+            <Icon name="book" style={{fontSize: 30, color: '#BDC0C6'}} />
+            <Text style={{fontSize: 10, marginTop: -5, color: '#BDC0C6'}}>
               Book
             </Text>
           </TouchableOpacity>
@@ -155,10 +110,9 @@ class BookList extends Component {
               justifyContent: 'center',
               alignItems: 'center',
               marginHorizontal: 20,
-            }}
-            onPress={() => this.props.navigation.navigate('ComingSoon')}>
-            <Icon name="mail" style={{fontSize: 30, color: '#BDC0C6'}} />
-            <Text style={{fontSize: 10, marginTop: -5, color: '#BDC0C6'}}>
+            }}>
+            <Icon name="mail" style={{fontSize: 30, color: '#57DBE9'}} />
+            <Text style={{fontSize: 10, marginTop: -5, color: '#57DBE9'}}>
               Indox
             </Text>
           </TouchableOpacity>
@@ -180,9 +134,4 @@ class BookList extends Component {
   }
 }
 
-const book = state => {
-  return {
-    book: state.booking.booking,
-  };
-};
-export default connect(book)(BookList);
+export default ComingSoon;

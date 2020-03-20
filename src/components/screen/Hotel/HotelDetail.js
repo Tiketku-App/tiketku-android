@@ -181,7 +181,9 @@ class HotelDetail extends Component {
                     </Text>
                   </View>
                   <TouchableOpacity
-                    onPress={() => this.props.navigation.navigate('BookNow')}
+                    onPress={() =>
+                      this.props.navigation.navigate('BookNow', {data: hotels})
+                    }
                     style={{
                       height: 36,
                       width: 114,

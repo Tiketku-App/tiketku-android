@@ -14,20 +14,21 @@ import {Icon} from 'native-base';
 import {TouchableOpacity, ScrollView} from 'react-native-gesture-handler';
 import Modal from 'react-native-modal';
 
-import {getAllHotell, searchHotel} from '../../redux/action/hotel';
+import {getAllHotell} from '../../redux/action/hotel';
+import {getUser} from '../../redux/action/user';
 import {connect} from 'react-redux';
 
 const styles = StyleSheet.create({
   wrap: {
     flex: 1,
-    marginHorizontal: 17,
+    paddingHorizontal: 17,
   },
   header: {
     marginTop: 10,
   },
   search: {
     backgroundColor: '#F5F5F5',
-    width: 223,
+    width: 280,
     borderRadius: 10,
   },
   comp1Wrap: {
@@ -72,6 +73,7 @@ class Home extends Component {
     name: '',
     city: '',
     isModalVisible: false,
+    id_user: '',
   };
   toggleModal = () => {
     this.setState({isModalVisible: !this.state.isModalVisible});
@@ -125,11 +127,17 @@ class Home extends Component {
     token: '',
   };
   async getAllHotell() {
-    await this.props.dispatch(getAllHotell());
+    await this.props.dispatch(getAllHotell({}));
+  }
+  async getUser() {
+    await this.props.dispatch(getUser(this.state.id_user));
   }
   componentDidMount() {
     this.cekAuth();
-    this.getAllHotell();
+    if (this.props.hotels.length < 1) {
+      this.getAllHotell();
+    }
+    this.getUser();
   }
   logout = async () => {
     await AsyncStorage.removeItem('token');
@@ -137,7 +145,8 @@ class Home extends Component {
   };
   cekAuth = async () => {
     const token = await AsyncStorage.getItem('token');
-    this.setState({token: token});
+    const id = await AsyncStorage.getItem('id_user');
+    this.setState({token: token, id_user: id});
     console.log('token', token);
     if (!token || token === null) {
       this.props.navigation.navigate('Login');
@@ -147,15 +156,21 @@ class Home extends Component {
     this.setState({
       city: event,
     });
-    this.props.dispatch(searchHotel(this.state.name, this.state.city));
+    const data = {
+      city: event,
+    };
+    this.props.dispatch(getAllHotell(data));
   }
 
-  searchHotelHadle = async event => {
-    await this.setState({
+  searchHotelHadle = event => {
+    this.setState({
       name: event,
     });
     console.log(this.props);
-    this.props.dispatch(searchHotel(this.state.name, this.state.city));
+    const data = {
+      name: event,
+    };
+    this.props.dispatch(getAllHotell(data));
   };
   convertToRupiah = angka => {
     var rupiah = '';
@@ -204,22 +219,19 @@ class Home extends Component {
                   </View>
                 </View>
                 <View style={styles.headerIcon}>
-                  <TouchableOpacity onPress={() => this.logout()}>
+                  {/* <TouchableOpacity onPress={() => this.logout()}>
                     <Icon
                       style={{color: '#BDC0C6', marginLeft: 10}}
                       name="log-in"
                     />
-                  </TouchableOpacity>
-                  <TouchableOpacity>
+                  </TouchableOpacity> */}
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.props.navigation.navigate('ComingSoon')
+                    }>
                     <Icon
                       style={{color: '#BDC0C6', marginLeft: 10}}
                       name="heart"
-                    />
-                  </TouchableOpacity>
-                  <TouchableOpacity>
-                    <Icon
-                      style={{color: '#BDC0C6', marginLeft: 10}}
-                      name="mail"
                     />
                   </TouchableOpacity>
                 </View>
@@ -228,13 +240,26 @@ class Home extends Component {
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}>
                 <View style={styles.comp2Wrap}>
+                  <TouchableOpacity
+                    onPress={() => this.sortHotelHadle(``)}
+                    style={{
+                      marginRight: 8,
+                      width: 96,
+                      backgroundColor: '#57DBE9',
+                      justifyContent: 'center',
+                      height: 37,
+                      borderRadius: 8,
+                      paddingLeft: 8,
+                    }}>
+                    <Text style={{color: 'white', fontSize: 15}}>All</Text>
+                  </TouchableOpacity>
                   {hotels.map(hotel => (
                     <TouchableOpacity
                       onPress={() => this.sortHotelHadle(`${hotel.city}`)}
                       style={{
                         marginRight: 8,
                         width: 96,
-                        backgroundColor: '#B5207E',
+                        backgroundColor: '#57DBE9',
                         justifyContent: 'center',
                         height: 37,
                         borderRadius: 8,
@@ -281,6 +306,30 @@ class Home extends Component {
               <Icon name="book" style={{fontSize: 30, color: '#BDC0C6'}} />
               <Text style={{fontSize: 10, marginTop: -5, color: '#BDC0C6'}}>
                 Book
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginHorizontal: 20,
+              }}
+              onPress={() => this.props.navigation.navigate('History')}>
+              <Icon name="alarm" style={{fontSize: 30, color: '#BDC0C6'}} />
+              <Text style={{fontSize: 10, marginTop: -5, color: '#BDC0C6'}}>
+                History
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginHorizontal: 20,
+              }}
+              onPress={() => this.props.navigation.navigate('ComingSoon')}>
+              <Icon name="mail" style={{fontSize: 30, color: '#BDC0C6'}} />
+              <Text style={{fontSize: 10, marginTop: -5, color: '#BDC0C6'}}>
+                Indox
               </Text>
             </TouchableOpacity>
             <TouchableOpacity

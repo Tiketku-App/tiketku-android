@@ -1,76 +1,189 @@
-import React, { Component, version } from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
-import { Icon } from 'native-base';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Icom } from 'native-base'
+/* eslint-disable no-alert */
+/* eslint-disable react-native/no-inline-styles */
+import React, {Component} from 'react';
+import {View, Text, Image, StyleSheet} from 'react-native';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import {
+  Content,
+  Form,
+  Item,
+  Input,
+  Icon,
+  ListItem,
+  CheckBox,
+  Body,
+  Picker,
+} from 'native-base';
+// import axios from 'axios';
+import {connect} from 'react-redux';
+import {patchProduct} from '../../redux/action/user';
 
 const styles = StyleSheet.create({
-    wrap: {
-        flex: 1,
-        backgroundColor: '#F8F8F8'
-    },
-    header: {
-        backgroundColor: 'white',
-    },
-    content: {
-        height: 500,
-        marginHorizontal: 10,
-        marginTop: 10
-    },
-    footer: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor:'white'
-
-    },
-})
+  wrap: {
+    flex: 1,
+    backgroundColor: 'white',
+  },
+});
 
 class EditUser extends Component {
-    render() {
-        return (
-            <View style={styles.wrap}>
+  state = {
+    name_user: '',
+    email: '',
+    address: '',
+    gender: '',
+    phone_number: '',
+    // password: '',
+  };
 
-                <View style={styles.header}>
-                    <View style={{ flexDirection: 'row' }}>
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate('BookingList')} style={{ marginBottom: 15 }}>
-                            <Icon name="arrow-back" style={{ marginLeft: 20, marginTop: 20, color: '#75797C' }}></Icon>
-                        </TouchableOpacity>
-                        <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1, marginLeft: -40 }}><Text style={{ fontSize: 20, color: '#75797C' }}>Edit Profile</Text></View>
-                    </View>
-                </View>
-                <View style={styles.content}>
-                    <View style={{ height: 230, backgroundColor: 'white', borderRadius: 10 }}>
-                        <View style={{ alignItems: 'center', marginTop: 15 }}>
-                            <View style={{ width: 95, height: 95, borderRadius: 50, borderWidth: 3, borderColor: '#57DBE9', justifyContent: 'center', alignItems: 'center' }}>
-                                <Image style={{ width: 80, height: 80, borderRadius: 40 }} source={require('../../../img/profile/profile1.png')} />
-                            </View>
-                            <Text style={{ paddingTop: 10, fontSize: 18, fontWeight: 'bold', color: '#515151' }}>Zlatan Ibrahimovic</Text>
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate('EditUser')} style={{ height: 50, backgroundColor: '#57DBE9', paddingHorizontal: 85, marginTop: 10, justifyContent: 'center', borderRadius: 10 }}>
-                                <Text style={{ color: 'white', fontSize: 18, fontWeight: 'bold' }}>Edit Profile</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                    <View style={{ marginTop: 10, backgroundColor: 'white', height: 50, borderRadius: 10 }}>
-                        <View style={{ justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center', marginHorizontal: 10, height: 50, alignItems: 'center' }}>
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate('MyHotel')} >
-                                <Text style={{ fontSize: 18 }}>My Hotel</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate('MyHotel')}>
-                                <Icon name="arrow-forward"></Icon>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                </View>
-                <View style={styles.footer}>
-                    <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center', marginHorizontal: 20 }} onPress={() => this.props.navigation.navigate('Home')}><Icon name="home" style={{ fontSize: 30,color: '#BDC0C6'}} /><Text style={{ fontSize: 10, marginTop: -5,color: '#BDC0C6'}}>Home</Text></TouchableOpacity>
-                    <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center', marginHorizontal: 20 }} onPress={() => this.props.navigation.navigate('BookingList')}><Icon name="book" style={{ fontSize: 30,color: '#BDC0C6'}} /><Text style={{ fontSize: 10, marginTop: -5,color: '#BDC0C6'}}>Book</Text></TouchableOpacity>
-                    <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center', marginHorizontal: 20 }} onPress={() => this.props.navigation.navigate('User')}><Icon name="person" style={{ fontSize: 30, color: '#57DBE9' }} /><Text style={{ fontSize: 10, marginTop: -5,color: '#57DBE9'  }}>Account</Text></TouchableOpacity>
-                </View>
+  onValueChange = value => {
+    this.setState({
+      gender: value,
+    });
+  };
+
+  componentWillUpdate() {
+    console.log(this.props.user, 'here');
+    const user = this.props.user;
+    this.setState({
+      name_user: user.name_user,
+      email: user.email,
+      address: user.address,
+      gender: user.gender,
+      phone_number: user.phone_number,
+      //   password: user.password,
+    });
+  }
+
+  onSubmitEdit = async id => {
+    var formData = new FormData();
+    formData.append('name_user', this.state.name_user);
+    formData.append('email', this.state.email);
+    formData.append('gender', this.state.gender);
+    formData.append('phone_number', parseInt(this.state.phone_number));
+    await this.props.dispatch(patchProduct(formData, id));
+    this.props.navigation.navigate('User');
+  };
+
+  //   onEditUser = data => {
+  //     axios.patch(`${URI}/v1/user/`, data).then(res => {
+  //       alert('success');
+  //       this.props.navigation.navigate('User');
+  //     });
+  //   };
+
+  render() {
+    // console.log(this.state);
+    return (
+      <View style={styles.wrap}>
+        <View>
+          <Image
+            style={{position: 'absolute'}}
+            source={require('../../../img/icon/bg2.png')}
+          />
+          <TouchableOpacity
+            onPress={() => this.props.navigation.navigate('Login')}>
+            <Icon
+              name="arrow-back"
+              style={{color: 'white', marginLeft: 20, marginTop: 20}}
+            />
+          </TouchableOpacity>
+          <View style={{alignItems: 'center'}}>
+            <View style={{flexDirection: 'row'}}>
+              <TouchableOpacity
+                onPress={() => this.props.navigation.navigate('User')}>
+                <Text
+                  style={{
+                    color: 'white',
+                    fontSize: 21,
+                    marginLeft: 20,
+                    fontWeight: 'bold',
+                  }}>
+                  Edit User
+                </Text>
+              </TouchableOpacity>
             </View>
-        )
-    }
+          </View>
+        </View>
+        <Content style={{paddingHorizontal: 40, marginTop: 45}}>
+          <Form>
+            <Item>
+              <Input
+                placeholder="Username"
+                placeholderTextColor="#414141"
+                style={{color: '#414141'}}
+                onChangeText={text => this.setState({name_user: text})}
+                value={this.state.name_user}
+              />
+            </Item>
+            <Item>
+              <Input
+                placeholder="Email"
+                placeholderTextColor="#414141"
+                style={{color: '#414141'}}
+                onChangeText={text => this.setState({email: text})}
+                value={this.state.email}
+              />
+            </Item>
+            <Item>
+              <Input
+                placeholder="Address"
+                placeholderTextColor="#414141"
+                style={{color: '#414141'}}
+                onChangeText={text => this.setState({address: text})}
+                value={this.state.address}
+              />
+            </Item>
+            <Item>
+              <Picker
+                mode="dropdown"
+                iosHeader="Your Gender"
+                iosIcon={<Icon name="arrow-down" />}
+                style={{width: undefined}}
+                onValueChange={this.onValueChange}>
+                <Picker.Item label="Man" value="Man" />
+                <Picker.Item label="Woman" value="Woman" />
+              </Picker>
+            </Item>
+            <Item>
+              <Input
+                placeholder="Phone Number"
+                placeholderTextColor="#414141"
+                style={{color: '#414141'}}
+                keyboardType="numeric"
+                onChangeText={text => this.setState({phone_number: text})}
+                value={this.state.phone_number}
+              />
+            </Item>
+            {/* <Item>
+              <Input
+                secureTextEntry
+                placeholder="Password"
+                placeholderTextColor="#414141"
+                onChangeText={text => this.setState({password: text})}
+              />
+            </Item> */}
+          </Form>
+          <TouchableOpacity
+            onPress={() => this.onSubmitEdit(this.state.id)}
+            style={{
+              height: 44,
+              backgroundColor: '#57DBE9',
+              marginTop: 20,
+              borderRadius: 24,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Text style={{color: 'white', fontSize: 20}}>Simpan</Text>
+          </TouchableOpacity>
+        </Content>
+      </View>
+    );
+  }
 }
 
-export default EditUser;
+const user = state => {
+  return {
+    user: state.users.users[0],
+  };
+};
+export default connect(user)(EditUser);

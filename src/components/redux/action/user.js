@@ -7,7 +7,7 @@ export const getUser = hp => {
     type: 'GET_USER',
     payload: axios({
       method: 'GET',
-      url: `${URI}/v1/user/?hp=${phone_number}`,
+      url: `http://192.168.1.34:8282/v1/user/?hp=${phone_number}`,
     }),
   };
 };
