@@ -16,6 +16,10 @@ import BookingListScreen from './src/components/screen/Booking/Book';
 import UserScreen from './src/components/screen/Account/User';
 import BookNowScreen from './src/components/screen/Hotel/BookNow';
 import MyHotelScreen from './src/components/screen/Hotel/MyHotel';
+import EditUserScreen from './src/components/screen/Account/EditUser';
+import ETicket from './src/components/screen/ETicket';
+import ComingSoonScreen from './src/components/screen/ComingSoon/ComingSoon';
+import HistoryScreen from './src/components/screen/History/History';
 
 const homeNavigator = createStackNavigator({
   Home: {
@@ -62,6 +66,12 @@ const homeNavigator = createStackNavigator({
       header: null,
     },
   },
+  EditUser: {
+    screen: EditUserScreen,
+    navigationOptions: {
+      header: null,
+    },
+  },
   BookNow: {
     screen: BookNowScreen,
     navigationOptions: {
@@ -73,6 +83,17 @@ const homeNavigator = createStackNavigator({
     navigationOptions: {
       header: null,
     },
+  },
+  ComingSoon: {
+    screen: ComingSoonScreen,
+    navigationOptions: {},
+  },
+  History: {
+    screen: HistoryScreen,
+    navigationOptions: {},
+  },
+  ETicket: {
+    screen: ETicket,
   },
 });
 

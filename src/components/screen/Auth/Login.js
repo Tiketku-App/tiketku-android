@@ -13,6 +13,8 @@ import {
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Content, Form, Item, Input, Icon} from 'native-base';
 import axios from 'axios';
+import {getUser} from '../../redux/action/user';
+import {connect} from 'react-redux';
 import {URI} from 'react-native-dotenv';
 
 const styles = StyleSheet.create({
@@ -29,15 +31,16 @@ class Login extends Component {
   };
   setStorage = async res => {
     await AsyncStorage.setItem('token', res.data.result.token);
+    await AsyncStorage.setItem('id_user', res.data.result.id_user);
   };
   componentDidMount() {
     console.log(URI);
   }
   onLogin = data => {
+    this.props.dispatch(getUser(parseInt(data.hp)));
     axios
-      .post(`${URI}/v1/user/login/`, data)
+      .post(`http://192.168.1.34:8282/v1/user/login/`, data)
       .then(res => {
-        console.log('here', res);
         if (res.data.message === 'Wrong Email') {
           return alert('Wrong Phone Number');
         }
@@ -137,5 +140,5 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default connect()(Login);
 AppRegistry.registerComponent('Login', () => Login);

@@ -41,7 +41,7 @@ class Register extends Component {
   };
 
   onRegister = data => {
-    axios.post(`${URI}/v1/user/register/`, data).then(res => {
+    axios.post(`http://192.168.1.34:8282/v1/user/register/`, data).then(res => {
       alert('success');
       this.props.navigation.navigate('Login');
     });

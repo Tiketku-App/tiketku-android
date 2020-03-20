@@ -26,7 +26,7 @@ class ForgetPassword extends Component {
   checkNumber = () => {
     const hp = {hp: this.state.hp};
     axios
-      .post(`${URI}/v1/user/forgot`, hp)
+      .post(`http://192.168.1.34:8282/v1/user/forgot`, hp)
       .then(res => {
         console.log(res);
         if (res.data.message === 'Phone number not Found') {
