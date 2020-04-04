@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, Alert, TouchableOpacity, StatusBar} from 'react-native';
 import Modal from 'react-native-modal';
 import {connect} from 'react-redux';
 import {postBook} from '../../redux/action/booking';
@@ -15,6 +15,8 @@ import {
   Icon,
   DatePicker,
   Button,
+  Left,
+  Body,
 } from 'native-base';
 
 class BookNow extends Component {
@@ -51,65 +53,66 @@ class BookNow extends Component {
   };
 
   checkout = () => {
-    var name = this.props.user.name_user;
-    var hp = this.props.user.phone_number;
-    var email = this.props.user.email;
-    console.log(name, hp, email, 'hsdvfsfdakdv');
-    var tPrice =
-      parseInt(this.state.hotelData.hotel_price) *
-      parseInt(this.state.night) *
-      parseInt(this.state.room);
-    var quantity = parseInt(this.state.night) * parseInt(this.state.room);
-    console.log(tPrice);
-    const body = {
-      payment_type: 'cstore',
-      transaction_details: {
-        gross_amount: parseInt(tPrice),
-        order_id: `tiketku-${new Date().getTime()}`,
-      },
-      customer_details: {
-        email: 'noreply@example.com',
-        first_name: 'Tn/Ny',
-        last_name: name,
-        phone: hp,
-      },
-      item_details: [
-        {
-          id: `${this.state.hotelData.id_hotel}`,
-          price: parseInt(this.state.hotelData.hotel_price),
-          quantity: quantity,
-          name: `${this.state.hotelData.hotel_name}`,
+    if (this.state.checkIn.length < 1) {
+      Alert.alert('Check In', 'Please select date for check in');
+    } else {
+      const {name, hp, email} = this.props.user;
+      console.log(email, 'ini email');
+      var tPrice =
+        parseInt(this.state.hotelData.hotel_price) *
+        parseInt(this.state.night) *
+        parseInt(this.state.room);
+      var quantity = parseInt(this.state.night) * parseInt(this.state.room);
+      console.log(tPrice);
+      const body = {
+        payment_type: 'cstore',
+        transaction_details: {
+          gross_amount: parseInt(tPrice),
+          order_id: `tiketku-${new Date().getTime()}`,
         },
-      ],
-      cstore: {
-        store: 'Indomaret',
-        message: 'Message to display',
-      },
-    };
-    // alert('Thank U');
-    axios
-      .post(`https://api.sandbox.midtrans.com/v2/charge`, body, {
-        headers: {
-          Accept: 'application/json',
-          Authorization:
-            'Basic U0ItTWlkLXNlcnZlci12bjlvSjFIS1hDbzN0MWlFV1lid0Jwalc6',
-          'Content-Type': 'application/json',
+        customer_details: {
+          email: email,
+          first_name: 'Tn/Ny',
+          last_name: name,
+          phone: hp,
         },
-      })
-      .then(res => {
-        res.data.hotel = this.state.hotelData.hotel_name;
-        res.data.address = this.state.hotelData.hotel_location;
-        res.data.cover = this.state.hotelData.hotel_cover;
-        res.data.visitor = this.state.visitor;
-        res.data.room = this.state.room;
-        res.data.night = this.state.night;
-        res.data.checkIn = this.state.checkIn.toString().substr(4, 12);
-        this.props.dispatch(postBook(res.data));
-        this.props.navigation.navigate('BookingList');
-      })
-      .catch(err => {
-        console.log(err);
-      });
+        item_details: [
+          {
+            id: `${this.state.hotelData.id_hotel}`,
+            price: parseInt(this.state.hotelData.hotel_price),
+            quantity: quantity,
+            name: `${this.state.hotelData.hotel_name}`,
+          },
+        ],
+        cstore: {
+          store: 'Indomaret',
+          message: 'Message to display',
+        },
+      };
+      axios
+        .post(`https://api.sandbox.midtrans.com/v2/charge`, body, {
+          headers: {
+            Accept: 'application/json',
+            Authorization:
+              'Basic U0ItTWlkLXNlcnZlci12bjlvSjFIS1hDbzN0MWlFV1lid0Jwalc6',
+            'Content-Type': 'application/json',
+          },
+        })
+        .then(res => {
+          res.data.hotel = this.state.hotelData.hotel_name;
+          res.data.address = this.state.hotelData.hotel_location;
+          res.data.cover = this.state.hotelData.hotel_cover;
+          res.data.visitor = this.state.visitor;
+          res.data.room = this.state.room;
+          res.data.night = this.state.night;
+          res.data.checkIn = this.state.checkIn.toString().substr(4, 12);
+          this.props.dispatch(postBook(res.data));
+          this.props.navigation.navigate('BookingList');
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
   };
 
   componentDidMount() {
@@ -121,12 +124,23 @@ class BookNow extends Component {
   render() {
     const hotel = this.props.navigation.getParam('data');
     return (
-      <Content>
+      <Container>
+        <Header style={{backgroundColor: '#57DBE9'}}>
+          <Left>
+            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+              <Icon name="arrow-back" style={{color: '#fff', marginLeft: 15}} />
+            </TouchableOpacity>
+          </Left>
+          <Body></Body>
+        </Header>
+        <StatusBar backgroundColor="#57DBE9" />
         <Content style={{paddingHorizontal: 20, paddingTop: 20}}>
-          <Text style={{fontWeight: 'bold'}}>{hotel.hotel_name}</Text>
+          <Text style={{fontWeight: 'bold', fontSize: 20}}>
+            {hotel.hotel_name}
+          </Text>
           <Form>
-            <Item picker>
-              <Text>Check In</Text>
+            <Item picker style={{marginTop: 25}}>
+              <Text style={{fontWeight: 'bold', fontSize: 16}}>Check In</Text>
               <DatePicker
                 defaultDate={new Date()}
                 minimumDate={new Date()}
@@ -142,8 +156,8 @@ class BookNow extends Component {
                 disabled={false}
               />
             </Item>
-            <Item picker>
-              <Text>Visitor : </Text>
+            <Item picker style={{marginTop: 15}}>
+              <Text style={{fontWeight: 'bold', fontSize: 16}}>Visitor : </Text>
               <Picker
                 mode="dropdown"
                 iosIcon={<Icon name="arrow-down" />}
@@ -160,8 +174,8 @@ class BookNow extends Component {
                 <Picker.Item label="5" value="5" />
               </Picker>
             </Item>
-            <Item picker>
-              <Text>Room : </Text>
+            <Item picker style={{marginTop: 15}}>
+              <Text style={{fontWeight: 'bold', fontSize: 16}}>Room : </Text>
               <Picker
                 mode="dropdown"
                 iosIcon={<Icon name="arrow-down" />}
@@ -178,8 +192,8 @@ class BookNow extends Component {
                 <Picker.Item label="5" value="5" />
               </Picker>
             </Item>
-            <Item picker>
-              <Text>Night : </Text>
+            <Item picker style={{marginTop: 15}}>
+              <Text style={{fontWeight: 'bold', fontSize: 16}}>Night : </Text>
               <Picker
                 mode="dropdown"
                 iosIcon={<Icon name="arrow-down" />}
@@ -199,12 +213,16 @@ class BookNow extends Component {
           </Form>
           <Button
             rounded
-            style={{justifyContent: 'center', marginTop: 10}}
+            style={{
+              justifyContent: 'center',
+              marginTop: 20,
+              backgroundColor: '#57DBE9',
+            }}
             onPress={this.checkout}>
             <Text style={{fontWeight: 'bold', color: 'white'}}>Checkout</Text>
           </Button>
         </Content>
-      </Content>
+      </Container>
     );
   }
 }

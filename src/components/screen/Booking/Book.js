@@ -1,8 +1,15 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
-import {TouchableOpacity, ScrollView} from 'react-native-gesture-handler';
-import {Icon, Button} from 'native-base';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  StatusBar,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
+import {Icon, Button, Footer, FooterTab} from 'native-base';
 import {connect} from 'react-redux';
 // import { Container, Header, Tab, Tabs, TabHeading, Icon, Text } from 'native-base';
 
@@ -19,7 +26,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   content: {
-    height: 522,
+    flex: 1,
     backgroundColor: '#F8F8F8',
     paddingHorizontal: 12,
   },
@@ -40,13 +47,13 @@ const styles = StyleSheet.create({
 
 class BookList extends Component {
   static navigationOptions = {
-    title: 'My Book',
+    title: 'Booking',
     headerTintColor: '#57DBE9',
     headerTitleStyle: {
       fontSize: 18,
     },
   };
-  etiket = e => {
+  etiket = (e) => {
     this.props.navigation.navigate('ETicket', {
       data: e,
     });
@@ -56,7 +63,8 @@ class BookList extends Component {
       if (this.props.book) {
         return (
           <>
-            {this.props.book.map(data => (
+            <StatusBar barStyle="dark-content" backgroundColor="#f3f3f3" />
+            {this.props.book.map((data) => (
               <View style={styles.card}>
                 <View>
                   <Text style={{marginTop: 15, fontSize: 17}}>
@@ -97,7 +105,14 @@ class BookList extends Component {
                       marginLeft: 75,
                       marginTop: 15,
                     }}>
-                    <Text style={{fontWeight: 'bold'}}>E-Ticket</Text>
+                    <Text
+                      style={{
+                        fontWeight: 'bold',
+                        width: '100%',
+                        textAlign: 'center',
+                      }}>
+                      E-Ticket
+                    </Text>
                   </Button>
                 </View>
               </View>
@@ -113,74 +128,45 @@ class BookList extends Component {
             <BookView />
           </ScrollView>
         </View>
-        <View style={styles.footer}>
-          <TouchableOpacity
-            onPress={() => this.props.navigation.navigate('Home')}
+        <Footer>
+          <FooterTab
             style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginHorizontal: 20,
+              backgroundColor: 'white',
+              borderTopWidth: 1,
+              borderTopColor: '#f3f3f3',
             }}>
-            <Icon name="home" style={{fontSize: 30, color: '#BDC0C6'}} />
-            <Text style={{fontSize: 10, marginTop: -5, color: '#BDC0C6'}}>
-              Home
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginHorizontal: 20,
-            }}
-            onPress={() => this.props.navigation.navigate('BookingList')}>
-            <Icon name="book" style={{fontSize: 30, color: '#57DBE9'}} />
-            <Text style={{fontSize: 10, marginTop: -5, color: '#57DBE9'}}>
-              Book
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginHorizontal: 20,
-            }}
-            onPress={() => this.props.navigation.navigate('History')}>
-            <Icon name="alarm" style={{fontSize: 30, color: '#BDC0C6'}} />
-            <Text style={{fontSize: 10, marginTop: -5, color: '#BDC0C6'}}>
-              History
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginHorizontal: 20,
-            }}
-            onPress={() => this.props.navigation.navigate('ComingSoon')}>
-            <Icon name="mail" style={{fontSize: 30, color: '#BDC0C6'}} />
-            <Text style={{fontSize: 10, marginTop: -5, color: '#BDC0C6'}}>
-              Indox
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginHorizontal: 20,
-            }}
-            onPress={() => this.props.navigation.navigate('User')}>
-            <Icon name="person" style={{fontSize: 30, color: '#BDC0C6'}} />
-            <Text style={{fontSize: 10, marginTop: -5, color: '#BDC0C6'}}>
-              Account
-            </Text>
-          </TouchableOpacity>
-        </View>
+            <Button
+              vertical
+              onPress={() => this.props.navigation.navigate('Home')}>
+              <Icon name="home" style={{color: '#BDC0C6'}} />
+              <Text style={{color: '#BDC0C6', fontSize: 10}}>HOME</Text>
+            </Button>
+            <Button
+              vertical
+              onPress={() => this.props.navigation.navigate('BookingList')}>
+              <Icon name="book" style={{color: '#57DBE9'}} />
+              <Text style={{color: '#57DBE9', fontSize: 10}}>BOOK</Text>
+            </Button>
+            <Button
+              vertical
+              onPress={() => this.props.navigation.navigate('ComingSoon')}>
+              <Icon name="mail" style={{color: '#BDC0C6'}} />
+              <Text style={{color: '#BDC0C6', fontSize: 10}}>INBOX</Text>
+            </Button>
+            <Button
+              vertical
+              onPress={() => this.props.navigation.navigate('User')}>
+              <Icon name="person" style={{color: '#BDC0C6'}} />
+              <Text style={{color: '#BDC0C6', fontSize: 10}}>ACCOUNT</Text>
+            </Button>
+          </FooterTab>
+        </Footer>
       </View>
     );
   }
 }
 
-const book = state => {
+const book = (state) => {
   return {
     book: state.booking.booking,
   };

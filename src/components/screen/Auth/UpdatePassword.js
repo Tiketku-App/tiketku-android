@@ -25,7 +25,7 @@ class UpdatePassword extends Component {
       hp: this.props.user.phone_number,
     };
     axios
-      .patch(`http://192.168.1.34:8282/v1/user/changepass`, data)
+      .patch(`${URI}/v1/user/changepass`, data)
       .then(res => {
         alert('Success update password');
         this.props.navigation.navigate('Login');

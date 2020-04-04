@@ -1,11 +1,20 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, Image, FlatList} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  FlatList,
+  Modal,
+  StatusBar,
+} from 'react-native';
 import {TouchableOpacity, ScrollView} from 'react-native-gesture-handler';
-import {Icon} from 'native-base';
+import {Icon, Button} from 'native-base';
 import {hotelDetail} from '../../redux/action/hotel';
 import {connect} from 'react-redux';
-
+import ImageViewer from 'react-native-image-zoom-viewer';
+import {URI} from 'react-native-dotenv';
 const styles = StyleSheet.create({
   wrap: {
     flex: 1,
@@ -30,6 +39,16 @@ const styles = StyleSheet.create({
 });
 
 class HotelDetail extends Component {
+  state = {
+    isModalVisible: false,
+    activeImage: '',
+  };
+  toggleModal = () => {
+    this.setState({isModalVisible: true});
+  };
+  close = () => {
+    this.setState({isModalVisible: false});
+  };
   static navigationOptions = {
     title: 'Favehotel Padjajaran Bogor',
     headerStyle: {
@@ -64,6 +83,10 @@ class HotelDetail extends Component {
       ',-'
     );
   };
+  activate = e => {
+    console.log(e, 'disini');
+    this.setState({isModalVisible: true, activeImage: e.toString()});
+  };
   render() {
     console.log(this.props.hotel.hotel_cover);
     const hotels = this.props.hotel;
@@ -71,11 +94,12 @@ class HotelDetail extends Component {
       if (hotels.images) {
         return (
           <>
+            <StatusBar backgroundColor="#57DBE9" />
             <ScrollView>
               <View style={styles.imageWrapCov}>
                 <Image
                   style={{width: '100%', height: 246}}
-                  source={{uri: `${hotels.hotel_cover}`}}
+                  source={{uri: URI + `${hotels.hotel_cover}`}}
                 />
                 <View style={styles.images}>
                   <ScrollView
@@ -83,10 +107,11 @@ class HotelDetail extends Component {
                     showsHorizontalScrollIndicator={false}>
                     <View style={{marginTop: 1, flexDirection: 'row'}}>
                       {hotels.images.map(image => (
-                        <TouchableOpacity>
+                        <TouchableOpacity
+                          onPress={() => this.activate(URI + image.img)}>
                           <Image
                             style={{height: 70, width: 91, marginRight: 5}}
-                            source={{uri: `${image.img}`}}
+                            source={{uri: URI + `${image.img}`}}
                           />
                         </TouchableOpacity>
                       ))}
@@ -210,9 +235,28 @@ class HotelDetail extends Component {
         return <View></View>;
       }
     };
+    const images = [
+      {
+        url: this.state.activeImage,
+      },
+    ];
     return (
       <View style={styles.wrap}>
         <DetailView />
+        <Modal visible={this.state.isModalVisible} transparent={true}>
+          <Button
+            style={{
+              alignItems: 'center',
+              backgroundColor: 'black',
+              paddingLeft: 8,
+              paddingTop: 30,
+            }}
+            onPress={() => this.close()}
+            title="ok">
+            <Icon name="close" />
+          </Button>
+          <ImageViewer imageUrls={images} style={{height: '50%'}} />
+        </Modal>
       </View>
     );
   }

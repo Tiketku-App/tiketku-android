@@ -5,6 +5,7 @@ import {TouchableOpacity, ScrollView} from 'react-native-gesture-handler';
 import {Icon, Button, Card, CardItem, Body} from 'native-base';
 import {connect} from 'react-redux';
 import axios from 'axios';
+import Barcode from 'react-native-barcode-builder';
 // import { Container, Header, Tab, Tabs, TabHeading, Icon, Text } from 'native-base';
 
 class ETicket extends Component {
@@ -42,40 +43,166 @@ class ETicket extends Component {
   }
   render() {
     const ViewTicket = () => {
-      if (this.state.status !== 'pending') {
-        return (
-          <View style={{padding: 20}}>
-            <Card>
-              <CardItem>
-                <Body>
-                  <Text style={{fontWeight: 'bold'}}>
-                    Order ID: {this.state.data.order_id}
-                  </Text>
-                  <Text>Hotel: {this.state.data.hotel}</Text>
-                  <Text>Check in: {this.state.data.checkIn}</Text>
-                  <Text>Night: {this.state.data.night}</Text>
-                  <Text>Visitor: {this.state.data.visitor}</Text>
-                  <Text>Room: {this.state.data.room}</Text>
-                </Body>
-              </CardItem>
-            </Card>
-          </View>
-        );
-      }
       if (this.state.status === 'pending') {
         return (
           <>
-            <View style={{padding: 20}}>
-              <Text>Pay Now !</Text>
+            <View
+              style={{
+                padding: 20,
+                justifyContent: 'center',
+                alignItems: 'center',
+                flex: 3,
+              }}>
+              <Text
+                style={{fontSize: 16, fontWeight: 'bold', marginBottom: 20}}>
+                Pay Now !
+              </Text>
               <Text>Payment Method: {this.state.store}</Text>
               <Text>Payment Status: {this.state.status}</Text>
-            </View>
-            <View style={{justifyContent: 'center', flexDirection: 'row'}}>
-              <Text style={{fontWeight: 'bold'}}>
+              <Text
+                style={{fontSize: 16, fontWeight: 'bold', marginTop: 20}}>
                 Payment Code: {this.state.payment_code}
               </Text>
             </View>
+            <View style={{flex: 1}}></View>
           </>
+        );
+      } else if (this.state.status !== 'pending') {
+        return (
+          <View style={{flex: 1}}>
+            <View
+              style={{
+                justifyContent: 'center',
+                backgroundColor: 'white',
+                margin: 10,
+                borderRadius: 5,
+                shadowColor: '#000',
+                shadowOffset: {
+                  width: 0,
+                  height: 5,
+                },
+                shadowOpacity: 0.34,
+                shadowRadius: 6.27,
+
+                elevation: 10,
+              }}>
+              <View
+                style={{
+                  marginHorizontal: 20,
+                  backgroundColor: 'white',
+                  height: 150,
+                  justifyContent: 'center',
+                }}>
+                <View style={{marginBottom: 20}}>
+                  <Text style={{fontSize: 18, color: '#BBBBBB'}}>Hotel</Text>
+                  <Text
+                    style={{
+                      fontSize: 20,
+                      fontWeight: 'bold',
+                      color: '#7A7A7A',
+                    }}>
+                    {this.state.data.hotel}
+                  </Text>
+                </View>
+                <View>
+                  <View style={{flexDirection: 'row'}}>
+                    <View style={{marginRight: 30}}>
+                      <Text style={{fontSize: 18, color: '#BBBBBB'}}>
+                        Night
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize: 20,
+                          fontWeight: 'bold',
+                          color: '#7A7A7A',
+                        }}>
+                        {this.state.data.night}
+                      </Text>
+                    </View>
+                    <View style={{marginRight: 30}}>
+                      <Text style={{fontSize: 18, color: '#BBBBBB'}}>
+                        Visitor
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize: 20,
+                          fontWeight: 'bold',
+                          color: '#7A7A7A',
+                        }}>
+                        {this.state.data.visitor}
+                      </Text>
+                    </View>
+                    <View style={{marginRight: 25}}>
+                      <Text style={{fontSize: 18, color: '#BBBBBB'}}>Room</Text>
+                      <Text
+                        style={{
+                          fontSize: 20,
+                          fontWeight: 'bold',
+                          color: '#7A7A7A',
+                        }}>
+                        {this.state.data.room}
+                      </Text>
+                    </View>
+                    <View>
+                      <Text style={{fontSize: 15, color: '#BBBBBB'}}>
+                        Check in
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize: 15,
+                          fontWeight: 'bold',
+                          color: '#7A7A7A',
+                        }}>
+                        {this.state.data.checkIn}
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+              </View>
+            </View>
+            <View>
+              <View style={{alignItems: 'center'}}>
+                <View
+                  style={{
+                    marginTop: -9,
+                    width: 280,
+                    backgroundColor: 'white',
+                    height: 135,
+                  }}>
+                  <View style={{flexDirection: 'row', marginTop: 10}}>
+                    <View
+                      style={{
+                        backgroundColor: '#F2F2F2',
+                        height: 15,
+                        width: 15,
+                        borderRadius: 15 / 2,
+                        marginLeft: -5,
+                      }}></View>
+                    <View style={{flex: 1}}></View>
+                    <View
+                      style={{
+                        backgroundColor: '#F2F2F2',
+                        height: 15,
+                        width: 15,
+                        borderRadius: 15 / 2,
+                        marginRight: -7,
+                      }}></View>
+                  </View>
+                  <View style={{}}>
+                    <Barcode
+                      value={this.state.data.order_id}
+                      format="CODE128"
+                      width={1}
+                      height={65}
+                    />
+                    <View style={{alignItems: 'center'}}>
+                      <Text>{this.state.data.order_id}</Text>
+                    </View>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
         );
       }
     };

@@ -1,9 +1,8 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {Component, version} from 'react';
 import {View, Text, StyleSheet, Image, AsyncStorage} from 'react-native';
-import {Icon} from 'native-base';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {Icom} from 'native-base';
+import {Icon, Footer, FooterTab, Button} from 'native-base';
 import {connect} from 'react-redux';
 
 const styles = StyleSheet.create({
@@ -15,22 +14,15 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   content: {
-    height: 500,
+    flex: 1,
     marginHorizontal: 10,
     marginTop: 10,
-  },
-  footer: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white',
   },
 });
 
 class User extends Component {
   logout = async () => {
-    await AsyncStorage.removeItem('token');
+    await AsyncStorage.clear();
     await this.props.navigation.navigate('Login');
   };
   render() {
@@ -62,7 +54,7 @@ class User extends Component {
         <View style={styles.header}>
           <View style={{flexDirection: 'row'}}>
             <TouchableOpacity
-              onPress={() => this.props.navigation.navigate('BookingList')}
+              onPress={() => this.props.navigation.goBack()}
               style={{marginBottom: 15}}>
               <Icon
                 name="arrow-back"
@@ -119,32 +111,6 @@ class User extends Component {
                   style={{color: 'white', fontSize: 18, fontWeight: 'bold'}}>
                   Edit Profile
                 </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-          <View
-            style={{
-              marginTop: 10,
-              backgroundColor: 'white',
-              height: 50,
-              borderRadius: 10,
-            }}>
-            <View
-              style={{
-                justifyContent: 'space-between',
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginHorizontal: 10,
-                height: 50,
-                alignItems: 'center',
-              }}>
-              <TouchableOpacity
-                onPress={() => this.props.navigation.navigate('MyHotel')}>
-                <Text style={{fontSize: 18}}>My Hotel</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => this.props.navigation.navigate('BookNow')}>
-                <Icon name="arrow-forward" />
               </TouchableOpacity>
             </View>
           </View>
@@ -223,74 +189,45 @@ class User extends Component {
             </View>
           </View>
         </View>
-        <View style={styles.footer}>
-          <TouchableOpacity
-            onPress={() => this.props.navigation.navigate('Home')}
+        <Footer>
+          <FooterTab
             style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginHorizontal: 20,
+              backgroundColor: 'white',
+              borderTopWidth: 1,
+              borderTopColor: '#f3f3f3',
             }}>
-            <Icon name="home" style={{fontSize: 30, color: '#BDC0C6'}} />
-            <Text style={{fontSize: 10, marginTop: -5, color: '#BDC0C6'}}>
-              Home
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginHorizontal: 20,
-            }}
-            onPress={() => this.props.navigation.navigate('BookingList')}>
-            <Icon name="book" style={{fontSize: 30, color: '#BDC0C6'}} />
-            <Text style={{fontSize: 10, marginTop: -5, color: '#BDC0C6'}}>
-              Book
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginHorizontal: 20,
-            }}
-            onPress={() => this.props.navigation.navigate('History')}>
-            <Icon name="alarm" style={{fontSize: 30, color: '#BDC0C6'}} />
-            <Text style={{fontSize: 10, marginTop: -5, color: '#BDC0C6'}}>
-              History
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginHorizontal: 20,
-            }}
-            onPress={() => this.props.navigation.navigate('ComingSoon')}>
-            <Icon name="mail" style={{fontSize: 30, color: '#BDC0C6'}} />
-            <Text style={{fontSize: 10, marginTop: -5, color: '#BDC0C6'}}>
-              Indox
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginHorizontal: 20,
-            }}
-            onPress={() => this.props.navigation.navigate('User')}>
-            <Icon name="person" style={{fontSize: 30, color: '#57DBE9'}} />
-            <Text style={{fontSize: 10, marginTop: -5, color: '#57DBE9'}}>
-              Account
-            </Text>
-          </TouchableOpacity>
-        </View>
+            <Button
+              vertical
+              onPress={() => this.props.navigation.navigate('Home')}>
+              <Icon name="home" style={{color: '#BDC0C6'}} />
+              <Text style={{color: '#BDC0C6', fontSize: 10}}>HOME</Text>
+            </Button>
+            <Button
+              vertical
+              onPress={() => this.props.navigation.navigate('BookingList')}>
+              <Icon name="book" style={{color: '#BDC0C6'}} />
+              <Text style={{color: '#BDC0C6', fontSize: 10}}>BOOK</Text>
+            </Button>
+            <Button
+              vertical
+              onPress={() => this.props.navigation.navigate('ComingSoon')}>
+              <Icon name="mail" style={{color: '#BDC0C6'}} />
+              <Text style={{color: '#BDC0C6', fontSize: 10}}>INBOX</Text>
+            </Button>
+            <Button
+              vertical
+              onPress={() => this.props.navigation.navigate('User')}>
+              <Icon name="person" style={{color: '#57DBE9'}} />
+              <Text style={{color: '#57DBE9', fontSize: 10}}>ACCOUNT</Text>
+            </Button>
+          </FooterTab>
+        </Footer>
       </View>
     );
   }
 }
 
-const user = state => {
+const user = (state) => {
   return {
     user: state.users.users[0],
   };

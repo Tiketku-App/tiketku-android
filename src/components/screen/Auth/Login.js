@@ -9,6 +9,7 @@ import {
   StyleSheet,
   AsyncStorage,
   AppRegistry,
+  StatusBar,
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Content, Form, Item, Input, Icon} from 'native-base';
@@ -29,18 +30,18 @@ class Login extends Component {
     password: '',
     hp: '',
   };
-  setStorage = async res => {
+  setStorage = async (res) => {
     await AsyncStorage.setItem('token', res.data.result.token);
     await AsyncStorage.setItem('id_user', res.data.result.id_user);
   };
   componentDidMount() {
     console.log(URI);
   }
-  onLogin = data => {
+  onLogin = (data) => {
     this.props.dispatch(getUser(parseInt(data.hp)));
     axios
-      .post(`http://192.168.1.34:8282/v1/user/login/`, data)
-      .then(res => {
+      .post(`${URI}/v1/user/login/`, data)
+      .then((res) => {
         if (res.data.message === 'Wrong Email') {
           return alert('Wrong Phone Number');
         }
@@ -52,7 +53,7 @@ class Login extends Component {
         this.setStorage(res);
         this.props.navigation.navigate('Home');
       })
-      .catch(err => {
+      .catch((err) => {
         alert('Wrong Phone Number/Password');
         console.log(err);
       });
@@ -60,11 +61,12 @@ class Login extends Component {
   render() {
     return (
       <View style={styles.wrap}>
+        <StatusBar backgroundColor="#57DBE9" />
+        <Image
+          style={{position: 'absolute', width: '100%', height: 700, top: -130}}
+          source={require('../../../img/icon/bg.png')}
+        />
         <View>
-          <Image
-            style={{position: 'absolute'}}
-            source={require('../../../img/icon/bg.png')}
-          />
           <View style={{justifyContent: 'center', alignItems: 'center'}}>
             <View style={{marginTop: 232, flexDirection: 'row'}}>
               <TouchableOpacity>
@@ -96,7 +98,7 @@ class Login extends Component {
                 placeholderTextColor="#57DBE9"
                 style={{color: '#989898'}}
                 keyboardType={'numeric'}
-                onChangeText={text => this.setState({hp: text})}
+                onChangeText={(text) => this.setState({hp: text})}
               />
             </Item>
             <Item>
@@ -105,7 +107,7 @@ class Login extends Component {
                 placeholder="Password"
                 placeholderTextColor="#57DBE9"
                 style={{color: '#989898'}}
-                onChangeText={text => this.setState({password: text})}
+                onChangeText={(text) => this.setState({password: text})}
               />
             </Item>
           </Form>

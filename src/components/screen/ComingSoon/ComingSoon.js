@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, Image} from 'react-native';
 import {TouchableOpacity, ScrollView} from 'react-native-gesture-handler';
-import {Icon} from 'native-base';
+import {Icon, Button, Footer, FooterTab} from 'native-base';
 // import { Container, Header, Tab, Tabs, TabHeading, Icon, Text } from 'native-base';
 
 const styles = StyleSheet.create({
@@ -48,88 +48,62 @@ class ComingSoon extends Component {
   };
   render() {
     return (
-      <View style={styles.wrap}>
-        <View style={styles.headerWrap}>
-          <TouchableOpacity
+      <>
+        <View style={styles.wrap}>
+          <View style={styles.headerWrap}>
+            <TouchableOpacity
+              style={{
+                margin: 10,
+                backgroundColor: '#57DBE9',
+                width: 136,
+                height: 35,
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: 18,
+              }}>
+              <Text style={{color: 'white'}}>Coming Soon</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.content}>
+            <Text style={{fontSize: 30, color: '#57DBE9'}}>
+              Coming Soon......
+            </Text>
+          </View>
+        </View>
+        <Footer>
+          <FooterTab
             style={{
-              margin: 10,
-              backgroundColor: '#57DBE9',
-              width: 136,
-              height: 35,
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderRadius: 18,
+              backgroundColor: 'white',
+              borderTopWidth: 1,
+              borderTopColor: '#f3f3f3',
             }}>
-            <Text style={{color: 'white'}}>Coming Soon</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.content}>
-          <Text style={{fontSize: 30, color: '#57DBE9'}}>
-            Coming Soon......
-          </Text>
-        </View>
-        <View style={styles.footer}>
-          <TouchableOpacity
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginHorizontal: 20,
-            }}
-            onPress={() => this.props.navigation.navigate('Home')}>
-            <Icon name="home" style={{fontSize: 30, color: '#BDC0C6'}} />
-            <Text style={{fontSize: 10, marginTop: -5, color: '#BDC0C6'}}>
-              Home
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginHorizontal: 20,
-            }}
-            onPress={() => this.props.navigation.navigate('BookingList')}>
-            <Icon name="book" style={{fontSize: 30, color: '#BDC0C6'}} />
-            <Text style={{fontSize: 10, marginTop: -5, color: '#BDC0C6'}}>
-              Book
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginHorizontal: 20,
-            }}
-            onPress={() => this.props.navigation.navigate('History')}>
-            <Icon name="alarm" style={{fontSize: 30, color: '#BDC0C6'}} />
-            <Text style={{fontSize: 10, marginTop: -5, color: '#BDC0C6'}}>
-              History
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginHorizontal: 20,
-            }}>
-            <Icon name="mail" style={{fontSize: 30, color: '#57DBE9'}} />
-            <Text style={{fontSize: 10, marginTop: -5, color: '#57DBE9'}}>
-              Indox
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginHorizontal: 20,
-            }}
-            onPress={() => this.props.navigation.navigate('User')}>
-            <Icon name="person" style={{fontSize: 30, color: '#BDC0C6'}} />
-            <Text style={{fontSize: 10, marginTop: -5, color: '#BDC0C6'}}>
-              Account
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+            <Button
+              vertical
+              onPress={() => this.props.navigation.navigate('Home')}>
+              <Icon name="home" style={{color: '#57DBE9'}} />
+              <Text style={{color: '#57DBE9', fontSize: 10}}>HOME</Text>
+            </Button>
+            <Button
+              vertical
+              onPress={() => this.props.navigation.navigate('BookingList')}>
+              <Icon name="book" style={{color: '#BDC0C6'}} />
+              <Text style={{color: '#BDC0C6', fontSize: 10}}>BOOK</Text>
+            </Button>
+            <Button
+              vertical
+              onPress={() => this.props.navigation.navigate('ComingSoon')}>
+              <Icon name="mail" style={{color: '#BDC0C6'}} />
+              <Text style={{color: '#BDC0C6', fontSize: 10}}>INBOX</Text>
+            </Button>
+            <Button
+              vertical
+              onPress={() => this.props.navigation.navigate('User')}>
+              <Icon name="person" style={{color: '#BDC0C6'}} />
+              <Text style={{color: '#BDC0C6', fontSize: 10}}>ACCOUNT</Text>
+            </Button>
+          </FooterTab>
+        </Footer>
+      </>
     );
   }
 }

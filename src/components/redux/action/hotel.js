@@ -9,7 +9,7 @@ export const getAllHotell = data => {
     type: 'GET_HOTELS',
     payload: axios({
       method: 'GET',
-      url: `http://192.168.1.34:8282/v1/hotel?name=${name}&city=${city}&limit=${limit}`,
+      url: URI + `/v1/hotel?name=${name}&city=${city}&limit=${limit}`,
     }),
   };
 };
@@ -19,7 +19,7 @@ export const hotelDetail = id => {
     type: 'GET_HOTEL_DETAIL',
     payload: axios({
       method: 'GET',
-      url: `http://192.168.1.34:8282/v1/hotel/${id}`,
+      url: URI + `/v1/hotel/${id}`,
     }),
   };
 };

@@ -1,8 +1,14 @@
 /* eslint-disable no-alert */
 /* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  StatusBar,
+  TouchableOpacity,
+} from 'react-native';
 import {
   Content,
   Form,
@@ -14,7 +20,6 @@ import {
   Body,
   Picker,
 } from 'native-base';
-// import axios from 'axios';
 import {connect} from 'react-redux';
 import {patchProduct} from '../../redux/action/user';
 
@@ -32,29 +37,15 @@ class EditUser extends Component {
     address: '',
     gender: '',
     phone_number: '',
-    // password: '',
   };
 
-  onValueChange = value => {
+  onValueChange = (value) => {
     this.setState({
       gender: value,
     });
   };
 
-  componentWillUpdate() {
-    console.log(this.props.user, 'here');
-    const user = this.props.user;
-    this.setState({
-      name_user: user.name_user,
-      email: user.email,
-      address: user.address,
-      gender: user.gender,
-      phone_number: user.phone_number,
-      //   password: user.password,
-    });
-  }
-
-  onSubmitEdit = async id => {
+  onSubmitEdit = async (id) => {
     var formData = new FormData();
     formData.append('name_user', this.state.name_user);
     formData.append('email', this.state.email);
@@ -64,20 +55,13 @@ class EditUser extends Component {
     this.props.navigation.navigate('User');
   };
 
-  //   onEditUser = data => {
-  //     axios.patch(`${URI}/v1/user/`, data).then(res => {
-  //       alert('success');
-  //       this.props.navigation.navigate('User');
-  //     });
-  //   };
-
   render() {
-    // console.log(this.state);
     return (
       <View style={styles.wrap}>
+        <StatusBar backgroundColor="#57DBE9" />
         <View>
           <Image
-            style={{position: 'absolute'}}
+            style={{position: 'absolute', width: '100%', height: 700}}
             source={require('../../../img/icon/bg2.png')}
           />
           <TouchableOpacity
@@ -111,7 +95,7 @@ class EditUser extends Component {
                 placeholder="Username"
                 placeholderTextColor="#414141"
                 style={{color: '#414141'}}
-                onChangeText={text => this.setState({name_user: text})}
+                onChangeText={(text) => this.setState({name_user: text})}
                 value={this.state.name_user}
               />
             </Item>
@@ -120,7 +104,7 @@ class EditUser extends Component {
                 placeholder="Email"
                 placeholderTextColor="#414141"
                 style={{color: '#414141'}}
-                onChangeText={text => this.setState({email: text})}
+                onChangeText={(text) => this.setState({email: text})}
                 value={this.state.email}
               />
             </Item>
@@ -129,7 +113,7 @@ class EditUser extends Component {
                 placeholder="Address"
                 placeholderTextColor="#414141"
                 style={{color: '#414141'}}
-                onChangeText={text => this.setState({address: text})}
+                onChangeText={(text) => this.setState({address: text})}
                 value={this.state.address}
               />
             </Item>
@@ -150,18 +134,10 @@ class EditUser extends Component {
                 placeholderTextColor="#414141"
                 style={{color: '#414141'}}
                 keyboardType="numeric"
-                onChangeText={text => this.setState({phone_number: text})}
+                onChangeText={(text) => this.setState({phone_number: text})}
                 value={this.state.phone_number}
               />
             </Item>
-            {/* <Item>
-              <Input
-                secureTextEntry
-                placeholder="Password"
-                placeholderTextColor="#414141"
-                onChangeText={text => this.setState({password: text})}
-              />
-            </Item> */}
           </Form>
           <TouchableOpacity
             onPress={() => this.onSubmitEdit(this.state.id)}
@@ -181,7 +157,7 @@ class EditUser extends Component {
   }
 }
 
-const user = state => {
+const user = (state) => {
   return {
     user: state.users.users[0],
   };

@@ -4,7 +4,7 @@
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
+import {View, Text, Image, StyleSheet, StatusBar} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Content, Form, Item, Input, Icon} from 'native-base';
 import {getUser} from '../../redux/action/user';
@@ -26,8 +26,8 @@ class ForgetPassword extends Component {
   checkNumber = () => {
     const hp = {hp: this.state.hp};
     axios
-      .post(`http://192.168.1.34:8282/v1/user/forgot`, hp)
-      .then(res => {
+      .post(`${URI}/v1/user/forgot`, hp)
+      .then((res) => {
         console.log(res);
         if (res.data.message === 'Phone number not Found') {
           return alert('Phone number not registered');
@@ -36,16 +36,22 @@ class ForgetPassword extends Component {
           this.props.navigation.navigate('OtpSession');
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
   render() {
     return (
       <View style={styles.wrap}>
+        <StatusBar backgroundColor="#57DBE9" />
         <View>
           <Image
-            style={{position: 'absolute'}}
+            style={{
+              position: 'absolute',
+              width: '100%',
+              height: 700,
+              top: -135,
+            }}
             source={require('../../../img/icon/bg.png')}
           />
           <TouchableOpacity
@@ -80,7 +86,7 @@ class ForgetPassword extends Component {
                 placeholderTextColor="#57DBE9"
                 style={{color: '#989898'}}
                 keyboardType={'numeric'}
-                onChangeText={text => this.setState({hp: text})}
+                onChangeText={(text) => this.setState({hp: text})}
               />
             </Item>
           </Form>
