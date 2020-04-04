@@ -79,6 +79,7 @@ class Home extends Component {
     this.setState({isModalVisible: !this.state.isModalVisible});
   };
   renderRow = ({item}) => {
+    console.log(item);
     return (
       <View style={{marginBottom: 10}}>
         <View style={styles.content}>

@@ -5,7 +5,7 @@ export const postBook = (data) => {
     type: 'POST_BOOK',
     payload: axios({
       method: 'POST',
-      url: URI + `/v1/booking`,
+      url: URI + `/v1/booking/`,
       data,
     }),
   };

@@ -82,6 +82,7 @@ class HotelDetail extends Component {
   };
   render() {
     const hotels = this.props.hotel;
+    console.log(this.props);
     const DetailView = () => {
       if (hotels.images) {
         return (

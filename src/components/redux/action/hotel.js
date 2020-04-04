@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {URI} from 'react-native-dotenv';
-
-export const getAllHotell = data => {
+console.log('URI', URI);
+export const getAllHotell = (data) => {
   const name = data.name || '';
   const city = data.city || '';
   const limit = data.limit || 3;
@@ -14,7 +14,7 @@ export const getAllHotell = data => {
   };
 };
 
-export const hotelDetail = id => {
+export const hotelDetail = (id) => {
   return {
     type: 'GET_HOTEL_DETAIL',
     payload: axios({

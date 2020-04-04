@@ -77,7 +77,7 @@ class BookList extends Component {
     this.cekAuth();
   }
   render() {
-    console.log(this.props.book);
+    console.log(this.props);
     const BookView = () => {
       if (this.props.book) {
         return (

@@ -7,7 +7,6 @@ import {
   Text,
 } from 'react-native';
 import {Spinner} from 'native-base';
-import Data from '../Global';
 
 export default class LoadingScreen extends React.Component {
   constructor(props) {

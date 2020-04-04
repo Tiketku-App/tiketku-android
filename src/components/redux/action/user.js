@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {URI} from 'react-native-dotenv';
-
+console.log('URI', URI)
 export const getUser = hp => {
   const phone_number = hp || '';
   return {

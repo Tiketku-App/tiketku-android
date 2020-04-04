@@ -71,11 +71,11 @@ class BookNow extends Component {
       Alert.alert('Check In', 'Please select date for check in');
     } else {
       const {name, hp, email} = this.props.user;
-      var tPrice =
+      let tPrice =
         parseInt(this.state.hotelData.hotel_price) *
         parseInt(this.state.night) *
         parseInt(this.state.room);
-      var quantity = parseInt(this.state.night) * parseInt(this.state.room);
+      let quantity = parseInt(this.state.night) * parseInt(this.state.room);
       const body = {
         payment_type: 'cstore',
         transaction_details: {
@@ -120,7 +120,7 @@ class BookNow extends Component {
             night: this.state.night,
             checkIn: this.state.checkIn.toString().substr(4, 12),
             order_id: res.data.order_id,
-            id_user: this.state.id_user,
+            id_user: parseInt(this.state.id_user),
             gross_amount: res.data.gross_amount,
             payment_code: res.data.payment_code,
             store: res.data.store,
@@ -148,6 +148,7 @@ class BookNow extends Component {
   }
 
   render() {
+    console.log(this.props);
     const hotel = this.props.navigation.getParam('data');
     return (
       <Container>
