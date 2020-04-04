@@ -15,43 +15,18 @@ import HotelDetailScreen from './src/components/screen/Hotel/HotelDetail';
 import BookingListScreen from './src/components/screen/Booking/Book';
 import UserScreen from './src/components/screen/Account/User';
 import BookNowScreen from './src/components/screen/Hotel/BookNow';
-import MyHotelScreen from './src/components/screen/Hotel/MyHotel'
+import MyHotelScreen from './src/components/screen/Hotel/MyHotel';
+import EditUserScreen from './src/components/screen/Account/EditUser';
+import ETicket from './src/components/screen/ETicket';
+import LoadingScreen from './src/components/screen/Loading';
+import ComingSoonScreen from './src/components/screen/ComingSoon/ComingSoon';
+import HistoryScreen from './src/components/screen/History/History';
 
 const homeNavigator = createStackNavigator({
   Home: {
     screen: HomeScreen,
     navigationOptions: {
-      header: false,
-    },
-  },
-  Login: {
-    screen: LoginScreen,
-    navigationOptions: {
-      header: null,
-    },
-  },
-  Register: {
-    screen: RegisterScreen,
-    navigationOptions: {
-      header: null,
-    },
-  },
-  ForgetPassword: {
-    screen: ForgetPasswordScreen,
-    navigationOptions: {
-      header: null,
-    },
-  },
-  OtpSession: {
-    screen: OtpSessionScreen,
-    navigationOptions: {
-      header: null,
-    },
-  },
-  UpdatePassword: {
-    screen: UpdatePasswordScreen,
-    navigationOptions: {
-      header: null,
+      headerShown: false,
     },
   },
   HotelDetail: HotelDetailScreen,
@@ -59,30 +34,88 @@ const homeNavigator = createStackNavigator({
   User: {
     screen: UserScreen,
     navigationOptions: {
-      header: null,
+      headerShown: false,
+    },
+  },
+  EditUser: {
+    screen: EditUserScreen,
+    navigationOptions: {
+      headerShown: false,
     },
   },
   BookNow: {
     screen: BookNowScreen,
     navigationOptions: {
-      header: null,
+      headerShown: false,
     },
   },
   MyHotel: {
     screen: MyHotelScreen,
     navigationOptions: {
-      header: null,
+      headerShown: false,
+    },
+  },
+  ComingSoon: {
+    screen: ComingSoonScreen,
+    navigationOptions: {},
+  },
+  History: {
+    screen: HistoryScreen,
+    navigationOptions: {},
+  },
+  ETicket: {
+    screen: ETicket,
+  },
+});
+
+const AuthStack = createStackNavigator({
+  Login: {
+    screen: LoginScreen,
+    navigationOptions: {
+      headerShown: false,
+    },
+  },
+  Register: {
+    screen: RegisterScreen,
+    navigationOptions: {
+      headerShown: false,
+    },
+  },
+  ForgetPassword: {
+    screen: ForgetPasswordScreen,
+    navigationOptions: {
+      headerShown: false,
+    },
+  },
+  OtpSession: {
+    screen: OtpSessionScreen,
+    navigationOptions: {
+      headerShown: false,
+    },
+  },
+  UpdatePassword: {
+    screen: UpdatePasswordScreen,
+    navigationOptions: {
+      headerShown: false,
     },
   },
 });
 
-const AppNavigator = createSwitchNavigator({
-  Home: homeNavigator,
-});
-
-const AppContainer = createAppContainer(AppNavigator);
+const AppContainer = createAppContainer(
+  createSwitchNavigator(
+    {
+      Loading: LoadingScreen,
+      App: homeNavigator,
+      Auth: AuthStack,
+    },
+    {
+      initialRouteName: 'Loading',
+    },
+  ),
+);
 
 function App() {
+  console.disableYellowBox = true;
   return (
     <Provider store={store}>
       <AppContainer />
