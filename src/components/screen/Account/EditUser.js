@@ -64,15 +64,14 @@ class EditUser extends Component {
             style={{position: 'absolute', width: '100%', height: 700}}
             source={require('../../../img/icon/bg2.png')}
           />
-          <TouchableOpacity
-            onPress={() => this.props.navigation.navigate('Login')}>
+          <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
             <Icon
               name="arrow-back"
               style={{color: 'white', marginLeft: 20, marginTop: 20}}
             />
           </TouchableOpacity>
           <View style={{alignItems: 'center'}}>
-            <View style={{flexDirection: 'row'}}>
+            <View style={{flexDirection: 'row', marginTop: '30%'}}>
               <TouchableOpacity
                 onPress={() => this.props.navigation.navigate('User')}>
                 <Text

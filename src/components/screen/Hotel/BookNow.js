@@ -1,5 +1,13 @@
 import React, {Component} from 'react';
-import {View, Text, Alert, TouchableOpacity, StatusBar} from 'react-native';
+import {
+  View,
+  Text,
+  Alert,
+  TouchableOpacity,
+  StatusBar,
+  AsyncStorage,
+  Image,
+} from 'react-native';
 import Modal from 'react-native-modal';
 import {connect} from 'react-redux';
 import {postBook} from '../../redux/action/booking';
@@ -18,37 +26,43 @@ import {
   Left,
   Body,
 } from 'native-base';
+import Data from '../../Global';
+import {URI} from 'react-native-dotenv';
 
 class BookNow extends Component {
-  state = {
-    isModalVisible: false,
-    nextdaymilsec: '',
-    checkIn: '',
-    checkOut: '',
-    room: '1',
-    visitor: '1',
-    night: '1',
-    hotelData: '',
-    tPrice: 0,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      isModalVisible: false,
+      nextdaymilsec: '',
+      checkIn: '',
+      checkOut: '',
+      room: '1',
+      visitor: '1',
+      night: '1',
+      hotelData: '',
+      tPrice: 0,
+      cover: this.props.navigation.getParam('cover'),
+    };
+  }
 
   toggleModal = () => {
     this.setState({isModalVisible: !this.state.isModalVisible});
   };
 
-  setDate = e => {
+  setDate = (e) => {
     this.setState({checkIn: e});
   };
 
-  changeVisitor = e => {
+  changeVisitor = (e) => {
     this.setState({visitor: e});
   };
 
-  changeRoom = e => {
+  changeRoom = (e) => {
     this.setState({room: e});
   };
 
-  changeNight = e => {
+  changeNight = (e) => {
     this.setState({night: e});
   };
 
@@ -57,13 +71,11 @@ class BookNow extends Component {
       Alert.alert('Check In', 'Please select date for check in');
     } else {
       const {name, hp, email} = this.props.user;
-      console.log(email, 'ini email');
       var tPrice =
         parseInt(this.state.hotelData.hotel_price) *
         parseInt(this.state.night) *
         parseInt(this.state.room);
       var quantity = parseInt(this.state.night) * parseInt(this.state.room);
-      console.log(tPrice);
       const body = {
         payment_type: 'cstore',
         transaction_details: {
@@ -98,27 +110,41 @@ class BookNow extends Component {
             'Content-Type': 'application/json',
           },
         })
-        .then(res => {
-          res.data.hotel = this.state.hotelData.hotel_name;
-          res.data.address = this.state.hotelData.hotel_location;
-          res.data.cover = this.state.hotelData.hotel_cover;
-          res.data.visitor = this.state.visitor;
-          res.data.room = this.state.room;
-          res.data.night = this.state.night;
-          res.data.checkIn = this.state.checkIn.toString().substr(4, 12);
-          this.props.dispatch(postBook(res.data));
+        .then((res) => {
+          const data = {
+            hotel: this.state.hotelData.hotel_name,
+            address: this.state.hotelData.hotel_location,
+            cover: this.state.hotelData.hotel_cover,
+            visitor: this.state.visitor,
+            room: this.state.room,
+            night: this.state.night,
+            checkIn: this.state.checkIn.toString().substr(4, 12),
+            order_id: res.data.order_id,
+            id_user: this.state.id_user,
+            gross_amount: res.data.gross_amount,
+            payment_code: res.data.payment_code,
+            store: res.data.store,
+          };
+          this.props.dispatch(postBook(data));
           this.props.navigation.navigate('BookingList');
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     }
   };
-
+  cekAuth = async () => {
+    const id = await AsyncStorage.getItem('id_user');
+    this.setState({id_user: id});
+    if (!id || id === null) {
+      this.props.navigation.navigate('Login');
+    }
+  };
   componentDidMount() {
     this.setState({
       hotelData: this.props.navigation.getParam('data'),
     });
+    this.cekAuth();
   }
 
   render() {
@@ -135,6 +161,10 @@ class BookNow extends Component {
         </Header>
         <StatusBar backgroundColor="#57DBE9" />
         <Content style={{paddingHorizontal: 20, paddingTop: 20}}>
+          <Image
+            style={{width: '100%', height: 200, borderRadius: 10}}
+            source={{uri: URI + this.state.cover}}
+          />
           <Text style={{fontWeight: 'bold', fontSize: 20}}>
             {hotel.hotel_name}
           </Text>
@@ -219,7 +249,15 @@ class BookNow extends Component {
               backgroundColor: '#57DBE9',
             }}
             onPress={this.checkout}>
-            <Text style={{fontWeight: 'bold', color: 'white'}}>Checkout</Text>
+            <Text
+              style={{
+                fontWeight: 'bold',
+                color: 'white',
+                width: '100%',
+                textAlign: 'center',
+              }}>
+              Checkout
+            </Text>
           </Button>
         </Content>
       </Container>
@@ -227,7 +265,7 @@ class BookNow extends Component {
   }
 }
 
-const user = state => {
+const user = (state) => {
   return {
     user: state.users.users[0],
   };

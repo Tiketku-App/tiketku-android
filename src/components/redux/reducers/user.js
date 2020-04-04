@@ -13,7 +13,6 @@ const users = (state = initialState, action) => {
         ...state,
       };
     case 'GET_USER_FULFILLED':
-      console.log('here', action.payload.data.result[0]);
       return {
         users: action.payload.data.result,
       };
@@ -26,7 +25,6 @@ const users = (state = initialState, action) => {
         ...state,
       };
     case 'POST_USERS_FULFILLED':
-      console.log(action.payload);
       const newUsers = [...state.users, action.payload.data.result];
       return {
         ...state,
@@ -43,7 +41,6 @@ const users = (state = initialState, action) => {
       };
 
     case 'UPDATE_USER_FULFILLED':
-      console.log(action.payload.data);
       const newUserAfterUpdate = state.users.map(user => {
         if (user.id === action.payload.data.result.id) {
           return action.payload.data.result;

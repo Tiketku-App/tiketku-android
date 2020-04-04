@@ -30,32 +30,25 @@ class Login extends Component {
     password: '',
     hp: '',
   };
-  setStorage = async (res) => {
-    await AsyncStorage.setItem('token', res.data.result.token);
-    await AsyncStorage.setItem('id_user', res.data.result.id_user);
+  setStorage = async (id) => {
+    const id_user = await AsyncStorage.setItem('id_user', id.toString());
   };
-  componentDidMount() {
-    console.log(URI);
-  }
   onLogin = (data) => {
     this.props.dispatch(getUser(parseInt(data.hp)));
     axios
       .post(`${URI}/v1/user/login/`, data)
       .then((res) => {
+        this.setStorage(res.data.result.id_user);
         if (res.data.message === 'Wrong Email') {
           return alert('Wrong Phone Number');
         }
         if (res.data.message === 'Login error!') {
-          console.log(res, 'ooooi');
           return alert('Wrong Password');
         }
-
-        this.setStorage(res);
-        this.props.navigation.navigate('Home');
+        this.props.navigation.navigate('Loading');
       })
       .catch((err) => {
         alert('Wrong Phone Number/Password');
-        console.log(err);
       });
   };
   render() {

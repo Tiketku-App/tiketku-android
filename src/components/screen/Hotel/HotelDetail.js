@@ -61,17 +61,11 @@ class HotelDetail extends Component {
   };
   componentDidMount() {
     const id = this.props.navigation.getParam('id_hotel');
-    console.log('sini', id);
-    console.log(id);
     this.props.dispatch(hotelDetail(id));
   }
-  convertToRupiah = angka => {
+  convertToRupiah = (angka) => {
     var rupiah = '';
-    var angkarev = angka
-      .toString()
-      .split('')
-      .reverse()
-      .join('');
+    var angkarev = angka.toString().split('').reverse().join('');
     for (var i = 0; i < angkarev.length; i++)
       if (i % 3 == 0) rupiah += angkarev.substr(i, 3) + '.';
     return (
@@ -83,12 +77,10 @@ class HotelDetail extends Component {
       ',-'
     );
   };
-  activate = e => {
-    console.log(e, 'disini');
+  activate = (e) => {
     this.setState({isModalVisible: true, activeImage: e.toString()});
   };
   render() {
-    console.log(this.props.hotel.hotel_cover);
     const hotels = this.props.hotel;
     const DetailView = () => {
       if (hotels.images) {
@@ -106,7 +98,7 @@ class HotelDetail extends Component {
                     horizontal={true}
                     showsHorizontalScrollIndicator={false}>
                     <View style={{marginTop: 1, flexDirection: 'row'}}>
-                      {hotels.images.map(image => (
+                      {hotels.images.map((image) => (
                         <TouchableOpacity
                           onPress={() => this.activate(URI + image.img)}>
                           <Image
@@ -207,7 +199,10 @@ class HotelDetail extends Component {
                   </View>
                   <TouchableOpacity
                     onPress={() =>
-                      this.props.navigation.navigate('BookNow', {data: hotels})
+                      this.props.navigation.navigate('BookNow', {
+                        data: hotels,
+                        cover: hotels.hotel_cover,
+                      })
                     }
                     style={{
                       height: 36,
@@ -261,8 +256,7 @@ class HotelDetail extends Component {
     );
   }
 }
-const mapStateToProps = state => {
-  console.log(state);
+const mapStateToProps = (state) => {
   return {
     hotel: state.hotels.hotel,
   };

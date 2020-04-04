@@ -115,6 +115,7 @@ const AppContainer = createAppContainer(
 );
 
 function App() {
+  console.disableYellowBox = true;
   return (
     <Provider store={store}>
       <AppContainer />

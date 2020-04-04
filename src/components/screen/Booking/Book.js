@@ -8,9 +8,11 @@ import {
   StatusBar,
   ScrollView,
   TouchableOpacity,
+  AsyncStorage,
 } from 'react-native';
 import {Icon, Button, Footer, FooterTab} from 'native-base';
 import {connect} from 'react-redux';
+import {getBook} from '../../redux/action/booking';
 // import { Container, Header, Tab, Tabs, TabHeading, Icon, Text } from 'native-base';
 
 const styles = StyleSheet.create({
@@ -36,6 +38,7 @@ const styles = StyleSheet.create({
     borderRadius: 13,
     flexDirection: 'row',
     padding: 10,
+    paddingRight: 10,
   },
   footer: {
     flex: 1,
@@ -46,8 +49,11 @@ const styles = StyleSheet.create({
 });
 
 class BookList extends Component {
+  state = {
+    id_user: 0,
+  };
   static navigationOptions = {
-    title: 'Booking',
+    title: 'Booked',
     headerTintColor: '#57DBE9',
     headerTitleStyle: {
       fontSize: 18,
@@ -58,7 +64,20 @@ class BookList extends Component {
       data: e,
     });
   };
+  cekAuth = async () => {
+    const id = await AsyncStorage.getItem('id_user');
+    this.setState({id_user: id});
+    if (!id || id === null) {
+      this.props.navigation.navigate('Login');
+    } else {
+      this.props.dispatch(getBook(id));
+    }
+  };
+  componentDidMount() {
+    this.cekAuth();
+  }
   render() {
+    console.log(this.props.book);
     const BookView = () => {
       if (this.props.book) {
         return (

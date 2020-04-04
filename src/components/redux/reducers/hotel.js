@@ -27,7 +27,6 @@ const hotel = (state = initialState, action) => {
         ...state,
       };
     case 'GET_SEARCHHOTEL_FULFILLED':
-      // console.log(action.payload)
       return {
         ...state,
         hotels: action.payload.data.result,
@@ -41,7 +40,6 @@ const hotel = (state = initialState, action) => {
         ...state,
       };
     case 'GET_HOTEL_DETAIL_FULFILLED':
-      console.log('here', action.payload.data);
       return {
         ...state,
         hotel: action.payload.data.result,

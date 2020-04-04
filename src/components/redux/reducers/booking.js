@@ -4,10 +4,18 @@ const initialState = {
 
 const booking = (state = initialState, action) => {
   switch (action.type) {
-    case 'POST_BOOK':
+    case 'GET_BOOK_PENDING':
       return {
         ...state,
-        booking: [...state.booking, action.payload.data],
+      };
+    case 'GET_BOOK_REJECTED':
+      return {
+        ...state,
+      };
+    case 'GET_BOOK_FULFILLED':
+      return {
+        ...state,
+        booking: action.payload.data.result,
       };
     default:
       return state;

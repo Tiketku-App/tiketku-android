@@ -147,11 +147,9 @@ class Home extends Component {
     await this.props.navigation.navigate('Login');
   };
   cekAuth = async () => {
-    const token = await AsyncStorage.getItem('token');
     const id = await AsyncStorage.getItem('id_user');
-    this.setState({token: token, id_user: id});
-    console.log('token', token);
-    if (!token || token === null) {
+    this.setState({id_user: id});
+    if (!id || id === null) {
       this.props.navigation.navigate('Login');
     }
   };
@@ -169,7 +167,6 @@ class Home extends Component {
     this.setState({
       name: event,
     });
-    console.log(this.props);
     const data = {
       name: event,
     };
@@ -192,7 +189,6 @@ class Home extends Component {
 
   render() {
     const {hotels} = this.props;
-    console.disableYellowBox = true;
     return (
       <>
         <StatusBar barStyle="dark-content" backgroundColor="#f3f3f3" />
