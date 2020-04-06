@@ -39,6 +39,6 @@ npx react-native run-android
 ### Screenshot 
 
 ![Screenshot_20200403-213008](https://user-images.githubusercontent.com/50796200/78528431-8f27a400-7809-11ea-92a8-7e6822122cc1.png)
-![Screenshot_20200403-212053](https://user-images.githubusercontent.com/50796200/78528433-92229480-7809-11ea-98ac-a665a328179b.png)
+![Screenshot_20200404-162630](https://user-images.githubusercontent.com/50796200/78528695-31478c00-780a-11ea-90c9-76b37f512e6a.png)
 ![Screenshot_20200403-212058](https://user-images.githubusercontent.com/50796200/78528437-964eb200-7809-11ea-9f9e-01449a42a942.png)
-![Screenshot_20200403-212355](https://user-images.githubusercontent.com/50796200/78528442-98187580-7809-11ea-83da-c0ef43b3ba8c.png)
+![Screenshot_20200404-162803](https://user-images.githubusercontent.com/50796200/78528618-01988400-780a-11ea-9b47-aba9ea83915e.png)
